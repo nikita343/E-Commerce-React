@@ -1,0 +1,21 @@
+.subtitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.75rem;
+  color: inherit;
+  &__icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  &__text {
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}
+@media screen and (max-width: 469px) {
+  .subtitle__text {
+    font-size: 0.875rem;
+  }
+}

@@ -1,0 +1,166 @@
+@use "../abstracts/variables" as v;
+
+.button {
+  grid-column-gap: 0.25rem;
+  grid-row-gap: 0.25rem;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: v.$brown;
+  background-color: #ffffff;
+  border-style: none;
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 2.625rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.1s ease-in-out;
+  display: flex;
+  outline: none !important;
+  cursor: pointer;
+  &.small {
+    height: 2rem;
+    font-size: 0.875rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  &.outline {
+    background: none;
+
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: border-color 0.3s ease-in-out;
+    &:hover {
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: none;
+    }
+  }
+  &.is-liquid {
+    gap: 0.4rem;
+    color: #ffffff;
+    backdrop-filter: blur(5px);
+    background-color: #ffffff10;
+  }
+  &.is-cart {
+    border-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='125' height='40' fill='none'%3e%3crect width='124' height='39' x='.5' y='.5' stroke='url(%23a)' stroke-opacity='.2' rx='7.5'/%3e%3cdefs%3e%3clinearGradient id='a' x1='62.5' x2='62.5' y1='0' y2='40' gradientUnits='userSpaceOnUse'%3e%3cstop stop-color='white'/%3e%3cstop offset='1' stop-color='white' stop-opacity='0'/%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e")
+      8 / 0.5rem stretch;
+    box-shadow: 0px 0px 1px 1px #ffffff05;
+  }
+  & .is-cart {
+    font-size: 0.625rem;
+    margin-top: -0.625rem;
+  }
+  &__link {
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    color: inherit;
+    display: inline;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+    text-decoration: none;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      display: block;
+      bottom: -2px;
+      height: 0.0625rem;
+      border-radius: 1rem;
+      background-color: currentColor;
+      transition: all 0.2s ease-in-out;
+    }
+    &::after {
+      width: 100%;
+      right: 0;
+    }
+    &::before {
+      left: 0;
+      transition-delay: 0.2s;
+
+      width: 0%;
+    }
+    &:hover::after {
+      width: 0%;
+    }
+    &:hover::before {
+      width: 100%;
+    }
+    &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    &.disabled:hover::after {
+      width: 100% !important;
+    }
+    &.disalbed:hover::before {
+      width: 0% !important;
+    }
+  }
+  &__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+
+    &.v2 {
+      position: absolute;
+      transform: translate(-100%, 0px);
+    }
+    &__wrapper {
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+  &:hover &__icon {
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  &:hover &__icon.v2 {
+    transform: translate(0%);
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+.button_icon_wrapper {
+  z-index: 0;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.button_icon {
+  justify-content: center;
+  align-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  display: flex;
+}
+
+.button_icon.v2 {
+  position: absolute;
+  transform: translate(-1.125rem, 1.125rem);
+}
+@media screen and (max-width: 991px) {
+  .button_icon_wrapper {
+    width: 0.98438rem;
+    height: 0.98438rem;
+  }
+  .button_icon {
+    width: 0.98438rem;
+    height: 0.98438rem;
+  }
+}

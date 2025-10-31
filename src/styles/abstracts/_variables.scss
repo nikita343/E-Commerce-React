@@ -1,0 +1,20 @@
+$dark-grey: #3f3f3f;
+$green: #ffebc4;
+$black: black;
+$beige: #b8aea7;
+$brown: #201914;
+$yellow: #ffebc4;
+$background: #fffdf5;
+$darkest-background: #d7d1c3;
+$dark-green: #2d3622;
+$white: #fff;
+
+::-moz-selection {
+  background: $beige;
+  color: $dark-green;
+}
+
+::selection {
+  background: $beige;
+  color: $dark-green;
+}

@@ -1,0 +1,85 @@
+@use "../../abstracts/variables" as v;
+
+.about {
+  background-color: v.$white;
+  color: v.$dark-green;
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+  }
+  &__container {
+    height: 200dvh;
+    position: relative;
+  }
+  &__wrapper {
+    height: 100dvh;
+    display: flex;
+    top: 0;
+
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    position: sticky;
+    padding: 1.5rem;
+    overflow: hidden;
+  }
+  &__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &__source {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+    }
+    &__wrapper {
+      position: absolute;
+      overflow: hidden;
+      width: 35vw;
+      border-radius: 20vw;
+      left: 50%;
+      height: 15vw;
+      transform: translateX(-50%);
+    }
+  }
+  &__text {
+    font-size: 3.5vw;
+  }
+  &__logo {
+    width: 20rem;
+    height: 20rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 55;
+    color: white;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about {
+    &__text {
+      font-size: 2rem;
+    }
+    &__logo {
+      width: 10rem;
+      height: 10rem;
+    }
+    &__video__wrapper {
+      width: 70vw;
+      height: 10rem;
+      border-radius: 20rem;
+    }
+    &__wrapper {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15rem;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+@use "../../abstracts/variables" as v;
+
+.navbar {
+  width: 40rem;
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1.25rem;
+  z-index: 1000;
+  color: v.$white;
+  background-color: rgba(0, 0, 0, 0.6);
+  &__component {
+    display: flex;
+    align-self: self-start;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+
+    height: 3.5rem;
+  }
+  &__logo {
+    font-size: 1.5rem;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+  }
+  &__menu__wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+  &__link {
+    font-size: 1rem;
+    color: inherit;
+    font-weight: 400;
+    text-decoration: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+  &__wrapper {
+    width: 40rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .navbar__menu__wrapper:has(.navbar__link:hover) .navbar__link:not(:hover) {
+    opacity: 0.5;
+  }
+}
+@media screen and (max-width: 991px) {
+  .navbar {
+    top: 1.5rem;
+    width: calc(100% - 3rem);
+    &__wrapper {
+      width: calc(100%);
+    }
+    &__component {
+      padding: 1rem;
+    }
+  }
+}
+@media screen and (max-width: 469px) {
+  .navbar {
+    top: 0.5rem;
+    width: calc(100% - 1rem);
+    &__wrapper {
+      width: calc(100%);
+    }
+    &__menu__wrapper {
+      gap: 1rem;
+    }
+  }
+}

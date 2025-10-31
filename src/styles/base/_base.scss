@@ -1,0 +1,12 @@
+.padding-global {
+  padding: 1.5rem;
+}
+.container-large {
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 469px) {
+  .padding-global {
+    padding: 1.5rem 0.5rem;
+  }
+}

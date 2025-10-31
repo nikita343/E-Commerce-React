@@ -1,0 +1,27 @@
+@use "abstracts/variables" as *;
+// You'll need to create a base/_typography.scss or base/_reset.scss next
+
+// 2. BASE: Global styles (resets, typography)
+@use "base/typography";
+@use "base/reset.scss";
+@use "base/base.scss";
+
+// 3. COMPONENTS: Specific components
+// You access these styles directly after importing
+@use "components/button";
+@use "components/composite/loader";
+@use "components/composite/navbar";
+@use "components/composite/cart";
+@use "components/composite/footer";
+
+@use "components/molecules/subtitle";
+@use "components/molecules/breadcrumbs";
+@use "components/molecules/search";
+
+// 4. SECTIONS: Components containing other components
+@use "components/sections/product";
+@use "components/sections/about";
+
+@use "components/composite/header";
+
+@use "utils/utils";

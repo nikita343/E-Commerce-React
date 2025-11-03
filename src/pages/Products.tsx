@@ -56,7 +56,7 @@ const Products = () => {
 
     const sortedList = [...products];
 
-    sortedList.sort(({ a, b }: any) => {
+    sortedList.sort((a: any, b: any) => {
       switch (key) {
         case "name-asc":
           return a.name.localeCompare(b.name);
@@ -65,13 +65,12 @@ const Products = () => {
         case "price-asc": // Price, low to high
           return a.sizes[0].price - b.sizes[0].price;
         case "price-desc": // Price, high to low
-          return b.sizes[0].price;
-          -a.sizes[0].price;
+          return b.sizes[0].price - a.sizes[0].price;
 
         case "date-asc": // Date, old to new (Smaller timestamp comes first)
           // 🔑 FIX: a minus b
           return (
-            new Date(a.createdAt).getDate() - new Date(b.createdAt).getTime()
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           );
 
         case "date-desc": // Date, new to old (Larger timestamp comes first)
@@ -81,7 +80,7 @@ const Products = () => {
           );
 
         default:
-          new Date(a.createdAt).getDate() - new Date(b.createdAt).getTime();
+          return 0;
       }
     });
 
@@ -102,10 +101,12 @@ const Products = () => {
     // Recalculate only when the filtered list or the sort key changes
   }, [filteredProducts, sortKey]);
   const clearFilters = () => {
-    setNotes(null); // Reset Notes filter
-    setEdition(null); // Reset Edition filter
+    setNotes(null);
+    setEdition(null);
+    setSortKey(null); // Keep this here to reset the sort display
   };
-  const isFilterActive = notes !== null || edition !== null || sortKey !== null;
+  const isFilterActive = notes !== null || edition !== null;
+
   return (
     <div className="product__home">
       <div className="padding-global">

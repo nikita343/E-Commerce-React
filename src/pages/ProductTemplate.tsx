@@ -155,57 +155,71 @@ const ProductTemplate = () => {
               </div>
             </div>
           </div>
-          <div className="product_page__item">
-            <div className="product_page__swiper__wrapper">
-              <Swiper
-                modules={[Scrollbar, A11y, Controller, EffectFade]}
-                spaceBetween={0}
-                onSwiper={(swiper) => setMainSwiper(swiper)}
-                controller={{ control: thumbsSwiper }}
-                slidesPerView={1}
-                effect="fade"
-                fadeEffect={{ crossFade: true }}
-                speed={400}
-              >
-                <MainGalleryNavigation swiper={mainSwiper} />
+          {allImageUrls.length > 1 || currentProduct.imageUrl.length > 1 ? (
+            <div className="product_page__item">
+              <div className="product_page__swiper__wrapper">
+                <Swiper
+                  modules={[Scrollbar, A11y, Controller, EffectFade]}
+                  spaceBetween={0}
+                  onSwiper={(swiper) => setMainSwiper(swiper)}
+                  controller={{ control: thumbsSwiper }}
+                  slidesPerView={1}
+                  effect="fade"
+                  fadeEffect={{ crossFade: true }}
+                  speed={400}
+                >
+                  {allImageUrls.length > 1 && (
+                    <MainGalleryNavigation swiper={mainSwiper} />
+                  )}
+                  {allImageUrls.map((el, index) => {
+                    return (
+                      <SwiperSlide>
+                        <img
+                          onClick={() => openLightboxOnSlide(index + 1)}
+                          src={el}
+                          className="product_page__image"
+                          alt={currentProduct.name}
+                        />
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              </div>
 
-                {allImageUrls.map((el, index) => {
-                  return (
-                    <SwiperSlide>
-                      <img
-                        onClick={() => openLightboxOnSlide(index + 1)}
-                        src={el}
-                        className="product_page__image"
-                        alt={currentProduct.name}
-                      />
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
+              <div className="product_page__item__divider"></div>
+              {allImageUrls.length > 1 && (
+                <Swiper
+                  modules={[Scrollbar, A11y, Controller]}
+                  spaceBetween={8}
+                  slidesPerView={3}
+                  controller={{ control: mainSwiper }}
+                  onSwiper={(swiper) => setThumbsSwiper(swiper)}
+                >
+                  {allImageUrls.map((el, index) => {
+                    return (
+                      <SwiperSlide onClick={() => mainSwiper?.slideTo(index)}>
+                        <img
+                          src={el}
+                          className="product_page__image sm"
+                          alt={currentProduct.name}
+                        />
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              )}
             </div>
-
-            <div className="product_page__item__divider"></div>
-            <Swiper
-              modules={[Scrollbar, A11y, Controller]}
-              spaceBetween={8}
-              slidesPerView={3}
-              controller={{ control: mainSwiper }}
-              onSwiper={(swiper) => setThumbsSwiper(swiper)}
-            >
-              {allImageUrls.map((el, index) => {
-                return (
-                  <SwiperSlide onClick={() => mainSwiper?.slideTo(index)}>
-                    <img
-                      src={el}
-                      className="product_page__image sm"
-                      alt={currentProduct.name}
-                    />
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          </div>
-
+          ) : (
+            <div className="product_page__item">
+              <div className="product_page__swiper__wrapper">
+                <img
+                  src="/images/notfound.png"
+                  className="product_page__image"
+                  alt={currentProduct.name}
+                />
+              </div>
+            </div>
+          )}
           <div className="product_page__right">
             <div className="product_page__list">
               <div className="product_page__list__item">

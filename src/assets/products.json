@@ -97,15 +97,11 @@
     "slug": "eternal-hour",
     "no": "No. 00",
     "price": 260,
-    "imageUrl": "/images/eternal-hour.jpg",
+    "imageUrl": "/images/eternal-hour.png",
     "description": "Aetheria’s signature blend — a seamless fusion of past and future. A shifting scent that evolves with time and temperature, never repeating itself.",
     "notes": ["Amber", "Rain", "Ozone", "Salt", "Smoke"],
     "edition": "timeless",
-    "imageGalleryUrls": [
-      "/images/eternal-hour-1.jpg",
-      "/images/eternal-hour-2.jpg",
-      "/images/eternal-hour-3.jpg"
-    ],
+    "imageGalleryUrls": [],
     "bgImage": "/images/eternal-bg.jpg",
     "location": "The World",
     "sizes": [
@@ -121,14 +117,11 @@
     "slug": "celestial-ash",
     "no": "No. 06",
     "price": 225,
-    "imageUrl": "/images/celestial-ash-2.png",
+    "imageUrl": "",
     "description": "After the fall of light, only scent remains. Celestial Ash captures the calm after creation — a whisper of smoke, volcanic minerals, and translucent woods. Both sacred and sterile, born from ruin, glowing in silence.",
     "notes": ["Volcanic Ash", "Birch Smoke", "Mineral Accord", "White Cedar"],
     "edition": "limited",
-    "imageGalleryUrls": [
-      "/images/celestial-ash-1.png",
-      "/images/celestial-ash-3.png"
-    ],
+    "imageGalleryUrls": [],
     "bgImage": "/images/celestial-bg.jpg",
     "location": "Reykjavík",
     "sizes": [
@@ -144,14 +137,11 @@
     "slug": "obsidian-veil",
     "no": "No. 07",
     "price": 215,
-    "imageUrl": "/images/obsidian-veil-2.png",
+    "imageUrl": "",
     "description": "Forged in shadow, Obsidian Veil embodies resilience and restraint. Black stone, charred myrrh, and cold incense rise like memory from the depths of silence.",
     "notes": ["Black Obsidian", "Myrrh", "Incense", "Vetiver"],
     "edition": "archive",
-    "imageGalleryUrls": [
-      "/images/obsidian-veil-1.png",
-      "/images/obsidian-veil-3.png"
-    ],
+    "imageGalleryUrls": [],
     "bgImage": "/images/obsidian-bg.jpg",
     "location": "Cairo",
     "sizes": [
@@ -167,14 +157,11 @@
     "slug": "golden-static",
     "no": "No. 08",
     "price": 240,
-    "imageUrl": "/images/golden-static-2.png",
+    "imageUrl": "",
     "description": "An electric hymn of warmth and distortion. Golden Static hums like radio waves across time — spiced amber, metallic bloom, and a pulse that never fades.",
     "notes": ["Amber Resin", "Metal Bloom", "Saffron", "Static Ozone"],
     "edition": "limited",
-    "imageGalleryUrls": [
-      "/images/golden-static-1.png",
-      "/images/golden-static-3.png"
-    ],
+    "imageGalleryUrls": [],
     "bgImage": "/images/golden-bg.jpg",
     "location": "Berlin",
     "sizes": [
@@ -190,14 +177,11 @@
     "slug": "midnight-refract",
     "no": "No. 09",
     "price": 230,
-    "imageUrl": "/images/midnight-refract-2.png",
+    "imageUrl": "",
     "description": "Where the spectrum ends, darkness bends. Midnight Refract reveals the hidden colors of night — crystalline violet, scorched wood, and soft metallic rain.",
     "notes": ["Violet Crystal", "Burnt Oak", "Rain Metal", "Labdanum"],
     "edition": "limited",
-    "imageGalleryUrls": [
-      "/images/midnight-refract-1.png",
-      "/images/midnight-refract-3.png"
-    ],
+    "imageGalleryUrls": [],
     "bgImage": "/images/midnight-bg.jpg",
     "location": "Oslo",
     "sizes": [

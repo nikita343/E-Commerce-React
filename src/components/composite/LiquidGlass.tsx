@@ -3,7 +3,7 @@
 
 import { useRef, useState, useEffect, useCallback, useId } from "react";
 
-// --- (NEW) Props Type Definition ---
+// --- Props Type Definition ---
 type LiquidGlassProps = {
   borderRadius?: number;
   blur?: number;
@@ -51,20 +51,14 @@ export const LiquidGlass = ({
   reflectionColor = "rgba(255, 255, 255, 0.2)",
   reflectionSize = 60,
 
-  // --- (NEW) Rim/Border Props ---
-  /** Controls the main thickness (spread) of the rim's glow */
+  // Rim/Border Props
   rimWidth = 1,
-  /** Controls the softness/blur of the rim (Fresnel effect) */
   rimBlur = 3,
-  /** The color of the light for the rim */
   rimColor = "rgba(255, 255, 255, 0.4)",
-  /** The blend mode for the compositing (additive) */
-  rimBlendMode = "overlay", // "overlay", "screen", "color-dodge" are good options
-  /** The angle (in degrees) for the specular light source (135 = top-left) */
+  rimBlendMode = "overlay",
   rimSpecularAngle = 135,
 }: LiquidGlassProps) => {
-  // --- (FIX) Applied Props Type
-  // --- (FIX) Typed all refs ---
+  // --- Refs ---
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -81,9 +75,20 @@ export const LiquidGlass = ({
   const [width, setWidth] = useState(300);
   const [height, setHeight] = useState(200);
 
+  // --- (NEW) Safari Detection State ---
+  const [isSafari, setIsSafari] = useState(false);
+
+  useEffect(() => {
+    // Check for Safari on mount (client-side only)
+    setIsSafari(
+      /^((?!chrome|android).)*safari/i.test(navigator.userAgent) &&
+        !/iPad|iPhone|iPod/.test(navigator.userAgent)
+    );
+  }, []);
+
   const canvasDPI = 1;
 
-  // --- (FIX) Typed utility function parameters ---
+  // --- Utility Functions ---
   const smoothStep = useCallback((a: number, b: number, t: number) => {
     t = Math.max(0, Math.min(1, (t - a) / (b - a)));
     return t * t * (3 - 2 * t);
@@ -106,9 +111,8 @@ export const LiquidGlass = ({
     [length]
   );
 
-  // --- Displacement Map Generation (unchanged) ---
+  // --- Displacement Map Generation ---
   const updateShader = useCallback(() => {
-    // --- (FIX) Refs are now typed, so .current has correct properties
     const canvas = canvasRef.current;
     const feImage = feImageRef.current;
     const feDisplacementMap = feDisplacementMapRef.current;
@@ -129,7 +133,7 @@ export const LiquidGlass = ({
 
     const data = new Uint8ClampedArray(w * h * 4);
     let maxScale = 0;
-    const rawValues: number[] = []; // (Optional) Typed rawValues
+    const rawValues: number[] = [];
 
     for (let i = 0; i < data.length; i += 4) {
       const x = (i / 4) % w;
@@ -196,7 +200,7 @@ export const LiquidGlass = ({
     smoothStep,
   ]);
 
-  // --- Resize Observer (unchanged) ---
+  // --- Resize Observer ---
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -215,14 +219,19 @@ export const LiquidGlass = ({
     };
   }, []);
 
-  // Update shader on mount and when params change (unchanged)
+  // --- (MODIFIED) Update shader on mount and when params change ---
   useEffect(() => {
-    updateShader();
-  }, [updateShader]);
+    // Don't run the shader generation on Safari
+    if (isSafari) return;
 
-  // --- Update Chromatic Aberration Filter (unchanged) ---
+    updateShader();
+  }, [updateShader, isSafari]); // Add isSafari dependency
+
+  // --- Update Chromatic Aberration Filter ---
   useEffect(() => {
-    // --- (FIX) Refs are now typed
+    // This effect is only for the filter, so skip if on Safari
+    if (isSafari) return;
+
     const feColorMatrixR = feColorMatrixRRef.current;
     const feColorMatrixG = feColorMatrixGRef.current;
     const feColorMatrixB = feColorMatrixBRef.current;
@@ -248,26 +257,24 @@ export const LiquidGlass = ({
       "values",
       `1 0 0 0 ${-offsetX} 0 1 0 0 ${-offsetY} 0 0 1 0 0 0 0 0 1 0`
     );
-  }, []);
+  }, [isSafari]); // Add isSafari dependency
 
-  // --- (FIX) Typed event handler parameter ---
+  // --- Mouse Handlers ---
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!reflectionRef.current) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // --- (FIX) Ref is now typed
     reflectionRef.current.style.background = `radial-gradient(circle at ${x}px ${y}px, ${reflectionColor} 0%, transparent ${reflectionSize}%)`;
   };
 
   const handleMouseLeave = () => {
     if (!reflectionRef.current) return;
-    // --- (FIX) Ref is now typed
     reflectionRef.current.style.background = "none";
   };
 
-  // --- (NEW) Rim Effect Calculation ---
+  // --- Rim Effect Calculation ---
   const angleRad = (rimSpecularAngle * Math.PI) / 180;
   const offsetX = Math.cos(angleRad) * Math.min(rimWidth, 1);
   const offsetY = Math.sin(angleRad) * Math.min(rimWidth, 1);
@@ -276,89 +283,101 @@ export const LiquidGlass = ({
     2
   )}px ${rimBlur}px ${rimWidth}px ${rimColor}`;
 
+  // --- (NEW) Conditional Filter Style ---
+  // --- (MODIFIED) Conditional Filter Style for Safari Blur ---
+  const effectiveBlur = isSafari ? blur * 3 : blur; // Apply 2x blur for Safari
+  const baseFilter = `blur(${effectiveBlur}px) contrast(${contrast}) brightness(${brightness}) saturate(${saturation})`;
+  const backdropFilterStyle = isSafari
+    ? baseFilter
+    : `url(#${id}_filter) ${baseFilter}`;
   // --- Render ---
   return (
     <>
-      {/* SVG Filter Definition (unchanged) */}
-      <svg
-        ref={svgRef}
-        xmlns="http://www.w3.org/2000/svg"
-        width="0"
-        height="0"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          pointerEvents: "none",
-          zIndex: zIndex - 1,
-        }}
-      >
-        <defs>
-          <filter
-            id={`${id}_filter`}
-            filterUnits="userSpaceOnUse"
-            colorInterpolationFilters="sRGB"
-            x="0"
-            y="0"
-            width={width.toString()}
-            height={height.toString()}
+      {/* --- (NEW) Conditionally render SVG and Canvas --- */}
+      {/* These elements are not needed on Safari */}
+      {!isSafari && (
+        <>
+          {/* SVG Filter Definition */}
+          <svg
+            ref={svgRef}
+            xmlns="http://www.w3.org/2000/svg"
+            width="0"
+            height="0"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              pointerEvents: "none",
+              zIndex: zIndex - 1,
+            }}
           >
-            <feImage
-              ref={feImageRef}
-              id={`${id}_map`}
-              width={width.toString()}
-              height={height.toString()}
-            />
-            <feDisplacementMap
-              ref={feDisplacementMapRef}
-              in="SourceGraphic"
-              in2={`${id}_map`}
-              xChannelSelector="R"
-              // --- (FIX) Removed invalid '_' prop ---
-              yChannelSelector="G"
-              result="displacedSource"
-            />
-            <feColorMatrix
-              ref={feColorMatrixRRef}
-              in="displacedSource"
-              type="matrix"
-              values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
-              result="redShifted"
-            />
-            <feColorMatrix
-              ref={feColorMatrixGRef}
-              in="displacedSource"
-              type="matrix"
-              values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
-              result="greenShifted"
-            />
-            <feColorMatrix
-              ref={feColorMatrixBRef}
-              in="displacedSource"
-              type="matrix"
-              values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
-              result="blueShifted"
-            />
-            <feBlend
-              in="redShifted"
-              in2="blueShifted"
-              mode="screen"
-              result="rbMerged"
-            />
-            <feBlend in="rbMerged" in2="greenShifted" mode="screen" />
-          </filter>
-        </defs>
-      </svg>
+            <defs>
+              <filter
+                id={`${id}_filter`}
+                filterUnits="userSpaceOnUse"
+                colorInterpolationFilters="sRGB"
+                x="0"
+                y="0"
+                width={width.toString()}
+                height={height.toString()}
+              >
+                <feImage
+                  ref={feImageRef}
+                  id={`${id}_map`}
+                  width={width.toString()}
+                  height={height.toString()}
+                />
+                <feDisplacementMap
+                  ref={feDisplacementMapRef}
+                  in="SourceGraphic"
+                  in2={`${id}_map`}
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                  result="displacedSource"
+                />
+                <feColorMatrix
+                  ref={feColorMatrixRRef}
+                  in="displacedSource"
+                  type="matrix"
+                  values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+                  result="redShifted"
+                />
+                <feColorMatrix
+                  ref={feColorMatrixGRef}
+                  in="displacedSource"
+                  type="matrix"
+                  values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+                  result="greenShifted"
+                />
+                <feColorMatrix
+                  ref={feColorMatrixBRef}
+                  in="displacedSource"
+                  type="matrix"
+                  values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+                  result="blueShifted"
+                />
+                <feBlend
+                  in="redShifted"
+                  in2="blueShifted"
+                  mode="screen"
+                  result="rbMerged"
+                />
+                <feBlend in="rbMerged" in2="greenShifted" mode="screen" />
+              </filter>
+            </defs>
+          </svg>
 
-      {/* Canvas for displacement map (unchanged) */}
-      <canvas
-        ref={canvasRef}
-        width={width * canvasDPI}
-        height={height * canvasDPI}
-        style={{ display: "none" }}
-      />
+          {/* Canvas for displacement map */}
+          <canvas
+            ref={canvasRef}
+            width={width * canvasDPI}
+            height={height * canvasDPI}
+            style={{ display: "none" }}
+          />
+        </>
+      )}
 
-      {/* Main Container (unchanged) */}
+      {/* Main Container */}
       <div
         ref={containerRef}
         className={className}
@@ -369,7 +388,8 @@ export const LiquidGlass = ({
           overflow: "hidden",
           borderRadius: `${borderRadius}px`,
           boxShadow: `0 4px 8px rgba(0, 0, 0, ${shadowIntensity}), 0 -10px 25px inset rgba(0, 0, 0, 0.15)`,
-          backdropFilter: `url(#${id}_filter) blur(${blur}px) contrast(${contrast}) brightness(${brightness}) saturate(${saturation})`,
+          // --- (MODIFIED) Apply the conditional filter ---
+          backdropFilter: backdropFilterStyle,
           zIndex: zIndex,
           display: "flex",
           alignItems: "center",
@@ -378,7 +398,7 @@ export const LiquidGlass = ({
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Children are now wrapped to ensure they appear above reflection (z-index: 1) */}
+        {/* Children Wrapper */}
         <div
           style={{
             position: "relative",
@@ -393,7 +413,7 @@ export const LiquidGlass = ({
           {children}
         </div>
 
-        {/* Reflection Overlay (z-index: 0) */}
+        {/* Reflection Overlay */}
         <div
           ref={reflectionRef}
           style={{
@@ -411,7 +431,7 @@ export const LiquidGlass = ({
           }}
         />
 
-        {/* --- (NEW) Rim/Border Overlay --- */}
+        {/* Rim/Border Overlay */}
         <div
           style={{
             position: "absolute",
@@ -423,7 +443,6 @@ export const LiquidGlass = ({
             pointerEvents: "none",
             zIndex: 2, // On top of children and reflection
             boxShadow: rimBoxShadow,
-            // --- (FIX) Cast string to correct CSS property type
             mixBlendMode: rimBlendMode as React.CSSProperties["mixBlendMode"],
           }}
         />

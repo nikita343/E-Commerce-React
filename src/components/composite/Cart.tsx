@@ -109,10 +109,15 @@ const Cart = () => {
                         </button>
                       </div>
                       <img
-                        src={item.product.imageUrl}
+                        src={
+                          item.product.imageUrl.length > 1
+                            ? item.product.imageUrl
+                            : "/images/notfound.png"
+                        }
                         alt={item.product.name}
                         className="cart__list__item__image"
                       />
+
                       <div className="cart__list__item__info">
                         <p className="text-size-regular u-weight-600">
                           {item.product.name}

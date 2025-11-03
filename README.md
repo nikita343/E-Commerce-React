@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  🔗 <a href="https://aetheria.awakeagency.dev/" target="_blank"><b>Check the live version → aetheria.awakeagency.dev</b></a>
+  🔗 <a target="_blank" href="https://aetheria.awakeagency.dev/" target="_blank"><b>Check the live version → aetheria.awakeagency.dev</b></a>
 </p>
 
 <p align="center">

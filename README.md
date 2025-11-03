@@ -10,6 +10,10 @@
 </p>
 
 <p align="center">
+  🔗 <a href="https://aetheria.awakeagency.dev/" target="_blank"><b>Check the live version → aetheria.awakeagency.dev</b></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/React-18-blue?logo=react" alt="React Badge" />
   <img src="https://img.shields.io/badge/TypeScript-5-blue?logo=typescript" alt="TypeScript Badge" />
   <img src="https://img.shields.io/badge/SCSS-Sass-pink?logo=sass" alt="Sass Badge" />

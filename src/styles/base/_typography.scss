@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap");
-@import url("https://db.onlinewebfonts.com/c/cddfddeff0f66d9f03e9df2585ea819e?family=NeueHaasDisplay-Roman");
+
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 html {
   font-family: "Inter", sans;
 }
@@ -18,26 +19,26 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "NeueHaasDisplay-Roman";
+  font-family: "Funnel Sans", sans-serif;
   text-wrap: balance;
+  letter-spacing: -0.03em;
 }
 
 .heading-style-h1 {
   font-size: 7.5rem;
-  font-weight: 400;
-  letter-spacing: -0.03em;
+  font-weight: 300;
   line-height: 84%;
 }
 
 .heading-style-h2 {
   font-size: 3.75rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 100%;
 }
 
 .heading-style-h3 {
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 110%;
 }
 
@@ -90,5 +91,39 @@ p {
   }
   .text-size-large {
     font-size: 1.25rem;
+  }
+}
+
+html {
+  font-size: calc(0.2500000000000001rem + 0.8333333333333333vw);
+}
+@media screen and (max-width: 1440px) {
+  html {
+    font-size: calc(0.25rem + 0.8333333333333333vw);
+  }
+}
+@media screen and (max-width: 1920px) {
+  html {
+    font-size: calc(0.625rem + 0.41666666666666674vw);
+  }
+}
+@media screen and (max-width: 1440px) {
+  html {
+    font-size: calc(-0.12499999999999978rem + 1.2499999999999998vw);
+  }
+}
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: calc(-0.12499999999999989rem + 1.2499999999999998vw);
+  }
+}
+@media screen and (max-width: 960px) {
+  html {
+    font-size: calc(0.7505197505197505rem + 0.4158004158004158vw);
+  }
+}
+@media screen and (max-width: 479px) {
+  html {
+    font-size: calc(0.7494769874476988rem + 0.8368200836820083vw);
   }
 }
